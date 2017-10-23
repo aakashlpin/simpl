@@ -20,12 +20,31 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-        <style jsx>{`
+        <style jsx global>{`
           html, body {
             background: #F7F7F7;
             color: #5e6f6d;
             font-size: 16px;
             font-family: 'Source Sans Pro', sans-serif;
+            box-sizing: border-box;
+          }
+          *, *:before, *:after {
+            box-sizing: inherit;
+          }
+          img {
+            box-sizing: content-box;
+          }
+          p {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+          }
+          .label {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-bottom: 0;
+          }
+          .uc {
+            text-transform: uppercase;
           }
         `}
         </style>

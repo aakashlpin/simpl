@@ -11,6 +11,7 @@
   "author": "Aakash Goel",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^1.29.0",
     "eslint": "^4.9.0",
     "next": "^4.1.3",
     "node-fetch": "^1.7.3",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
+    "babel-plugin-inline-react-svg": "^0.4.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
