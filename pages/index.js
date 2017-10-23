@@ -1,7 +1,7 @@
 import React from 'react';
 import fetch from 'node-fetch';
-import Header from '../components/header';
-import BillCycleTransactions from '../components/transactions';
+import Header from '../components/Header';
+import BillingCycle from '../components/BillingCycle';
 
 export default class extends React.Component {
   static async getInitialProps() {
@@ -16,7 +16,7 @@ export default class extends React.Component {
     return (
       <div>
         <Header />
-        <BillCycleTransactions
+        <BillingCycle
           transactions={this.props.transactions}
         />
       </div>

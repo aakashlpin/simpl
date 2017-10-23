@@ -1,4 +1,4 @@
-import TransactionItem from './transactionItem';
+import TransactionItem from './TransactionItem';
 import { formatDate, formatAmount } from '../utils/utils';
 
 export default ({ transactions }) => (

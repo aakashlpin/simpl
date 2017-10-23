@@ -1,7 +1,7 @@
 import { formatDate } from '../utils/utils';
 import TransactionsRenderer from './TransactionsRenderer';
 
-export default class BillCyclesRenderer extends React.Component {
+export default class BillingCycle extends React.Component {
   render() {
     const props = this.props;
     return (
