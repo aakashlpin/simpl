@@ -6,7 +6,7 @@ export default class BillingCycle extends React.Component {
     const props = this.props;
     return (
       <div>
-        {props.transactions.bill_cycles.map((bc, key) => (
+        {props.transactions.map((bc, key) => (
           <div className="card" key={key}>
             <p className="label">
               <span className="uc">Bill Cycle: </span>

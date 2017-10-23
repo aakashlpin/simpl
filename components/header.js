@@ -1,8 +1,8 @@
-export default () => (
+export default ({ amount }) => (
   <div>
     <div className="header">
       <p className="label uc">Total Amount</p>
-      <p className="header--amount">₹500</p>
+      <p className="header--amount">₹{amount}</p>
     </div>
     <style jsx>{`
           .header {
