@@ -15,10 +15,40 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    const initialBillingCycle = props.data.bill_cycles[0];
     this.state = {
-      shownBillingCycles: [initialBillingCycle],
+      cycles: props.data.bill_cycles,
+      visibleUntilIndex: 0,
     };
+
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    const windowHeight =
+      "innerHeight" in window ?
+        window.innerHeight : document.documentElement.offsetHeight;
+
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight,
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+
+    if (windowBottom >= docHeight) {
+      this.setState(state => ({
+        ...state,
+        visibleUntilIndex: state.visibleUntilIndex + 1,
+      }));
+    }
   }
 
   calculateTotalAmount(cycles) {
@@ -64,20 +94,21 @@ export default class extends React.Component {
   }
 
   handleClick(bcIdx, txnIdx) {
-    this.state.shownBillingCycles[bcIdx].transactions[txnIdx].paid = true;
+    this.state.cycles[bcIdx].transactions[txnIdx].paid = true;
     this.setState(this.state);
   }
 
   render() {
-    const { shownBillingCycles } = this.state;
+    const { cycles, visibleUntilIndex } = this.state;
+    const visibleCycles = cycles.filter((c, i) => i <= visibleUntilIndex);
 
     return (
       <div>
         <Header
-          amount={this.calculateTotalAmount(shownBillingCycles)}
+          amount={this.calculateTotalAmount(visibleCycles)}
         />
 
-        {shownBillingCycles.map((bc, key) =>
+        {visibleCycles.map((bc, key) =>
           <BillingCycle
             key={key}
             {...bc}
