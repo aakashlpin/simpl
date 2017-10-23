@@ -51,14 +51,20 @@ export default class extends React.Component {
   }
 
   render() {
+    const { shownBillingCycles } = this.state;
+
     return (
       <div>
         <Header
-          amount={this.calculateTotalAmount(this.state.shownBillingCycles)}
+          amount={this.calculateTotalAmount(shownBillingCycles)}
         />
-        <BillingCycle
-          transactions={this.state.shownBillingCycles}
-        />
+
+        {shownBillingCycles.map((bc, key) =>
+          <BillingCycle
+            key={key}
+            {...bc}
+          />
+        )}
       </div>
     );
   }

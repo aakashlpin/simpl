@@ -6,18 +6,16 @@ export default class BillingCycle extends React.Component {
     const props = this.props;
     return (
       <div>
-        {props.transactions.map((bc, key) => (
-          <div className="card" key={key}>
-            <p className="label">
-              <span className="uc">Bill Cycle: </span>
-              {formatDate(bc.bill_cyle_start)} &mdash; {formatDate(bc.bill_cyle_end)}
-            </p>
+        <div className="card">
+          <p className="label">
+            <span className="uc">Bill Cycle: </span>
+            {formatDate(props.bill_cyle_start)} &mdash; {formatDate(props.bill_cyle_end)}
+          </p>
 
-            <TransactionsRenderer
-              transactions={bc.transactions}
-            />
-          </div>
-        ))}
+          <TransactionsRenderer
+            transactions={props.transactions}
+          />
+        </div>
 
         <style jsx>{`
           .card {
