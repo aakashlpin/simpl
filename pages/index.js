@@ -24,12 +24,18 @@ export default class extends React.Component {
   calculateTotalAmount(cycles) {
     const def = x => typeof x !== 'undefined';
 
+    /**
+     * removes `transactions` key from an object
+     */
     const withoutTransactions = x =>
       Object.keys(x).filter(key => key !== 'transactions').reduce((obj, key) => {
         obj[key] = x[key];
         return obj;
       }, {});
 
+    /**
+     * flattens a nested `transactions` array
+     */
     const f = ([x, ...xs]) =>
       def(x) ?
         x.transactions ?
@@ -37,9 +43,14 @@ export default class extends React.Component {
             [...f(x.transactions), ...f(xs), withoutTransactions(x)] :
             [...f(x.transactions), ...f(xs)] :
           [...f(xs), x] :
-        []
+        [];
 
     const transactions = f(cycles);
+
+    /**
+     * if status is `SUCCESS`, add to sum
+     * subtract otherwise
+     */
     return (transactions.reduce((sum, txn) => {
       if (txn.status === 'SUCCESS') {
         sum += Number(txn.amount_in_paise);
