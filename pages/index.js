@@ -12,12 +12,17 @@ export default class extends React.Component {
     };
   }
 
+  constructor(props) {
+    super(props);
+    this.state = props.transactions;
+  }
+
   render() {
     return (
       <div>
         <Header />
         <BillingCycle
-          transactions={this.props.transactions}
+          transactions={this.state}
         />
       </div>
     );
