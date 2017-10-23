@@ -38,11 +38,13 @@ export default class extends React.Component {
      */
     const f = ([x, ...xs]) =>
       def(x) ?
-        x.transactions ?
-          'amount_in_paise' in x ?
-            [...f(x.transactions), ...f(xs), withoutTransactions(x)] :
-            [...f(x.transactions), ...f(xs)] :
-          [...f(xs), x] :
+        x.paid ?
+          [...f(xs)] :
+          x.transactions ?
+            'amount_in_paise' in x ?
+              [...f(x.transactions), ...f(xs), withoutTransactions(x)] :
+              [...f(x.transactions), ...f(xs)] :
+            [...f(xs), x] :
         [];
 
     const transactions = f(cycles);
@@ -61,6 +63,11 @@ export default class extends React.Component {
     }, 0) / 100);
   }
 
+  handleClick(bcIdx, txnIdx) {
+    this.state.shownBillingCycles[bcIdx].transactions[txnIdx].paid = true;
+    this.setState(this.state);
+  }
+
   render() {
     const { shownBillingCycles } = this.state;
 
@@ -74,6 +81,7 @@ export default class extends React.Component {
           <BillingCycle
             key={key}
             {...bc}
+            onClick={this.handleClick.bind(this, key)}
           />
         )}
       </div>

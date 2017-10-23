@@ -13,6 +13,7 @@ export default class BillingCycle extends React.Component {
           </p>
 
           <TransactionsRenderer
+            onClick={props.onClick}
             transactions={props.transactions}
           />
         </div>

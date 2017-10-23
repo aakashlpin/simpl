@@ -1,12 +1,14 @@
 import TransactionItem from './TransactionItem';
 import { formatDate, formatAmount } from '../utils/utils';
 
-export default ({ transactions }) => (
+export default ({ transactions, onClick }) => (
   <ul>
     {transactions.map((txn, id) => (
       <li key={id}>
         <TransactionItem
           {...txn}
+          index={id}
+          onClick={onClick}
           created={formatDate(txn.created)}
           amount={formatAmount(txn.amount_in_paise)}
         />
