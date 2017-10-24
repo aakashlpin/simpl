@@ -1,45 +1,91 @@
+import { TransitionMotion, spring, presets } from 'react-motion';
 import TransactionItem from './TransactionItem';
 import { formatDate, formatAmount } from '../utils/utils';
 
-export default ({ transactions, onClick }) => (
-  <ul>
-    {transactions.map((txn, id) => (
-      <li key={id}>
-        <TransactionItem
-          {...txn}
-          index={id}
-          onClick={onClick}
-          created={formatDate(txn.created)}
-          amount={formatAmount(txn.amount_in_paise)}
-        />
-      </li>
-    ))}
-    <style jsx>{`
-      ul {
-        list-style-type: none;
-        // margin: 0;
-        // padding: 0;
-      }
+export default class TransactionsRenderer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactions: props.transactions.map((t, i) => ({
+        key: i.toString(),
+        data: t,
+      })),
+    };
+  }
 
-      ul li {
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
-        position: relative;
-        box-shadow: inset 0 1px 6px -6px rgba(0,0,0,1);
+  getDefaultStyles = () => {
+    return this.state.transactions.map(t => ({
+      ...t,
+      style: {
+        height: 0,
+        opacity: 0,
       }
+    }))
+  }
 
-      // ul li:after {
-      //   content: '';
-      //   position: absolute;
-      //   bottom: 0; left: 0; right: 0;
-      //   height: 0;
-      //   // border-top: 1px solid rgba(0, 0, 0, 0.1);
-      //   // border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      // }
+  getNestedTransactions(t) {
+    if (t.transactions) {
+      return 1 + t.transactions.length;
+    }
+    return 1;
+  }
 
-      ul li:last-child {
-        border-bottom: none;
+  getStyles = () => {
+    return this.state.transactions.map(t => ({
+      ...t,
+      style: {
+        height: spring(74 * this.getNestedTransactions(t.data), presets.gentle),
+        opacity: spring(1, presets.gentle),
       }
-    `}</style>
-  </ul>
-)
+    }))
+  }
+
+  willEnter() {
+    return {
+      height: 0,
+      opacity: 1,
+    }
+  }
+
+  render() {
+    const { transactions, onClick } = this.props;
+    return (
+      <div>
+        <TransitionMotion
+          defaultStyles={this.getDefaultStyles()}
+          styles={this.getStyles()}
+          willEnter={this.willEnter}
+        >{ styles =>
+          <ul>
+            {styles.map(({ key, data, style }) => (
+              <li key={key} style={style}>
+                <TransactionItem
+                  {...data}
+                  index={key}
+                  onClick={onClick}
+                  created={formatDate(data.created)}
+                  amount={formatAmount(data.amount_in_paise)}
+                />
+              </li>
+            ))}
+          </ul>
+        }
+        </TransitionMotion>
+        <style jsx>{`
+          ul {
+            list-style-type: none;
+          }
+
+          ul li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+          }
+
+          ul li:last-child {
+            border-bottom: none;
+          }
+        `}</style>
+      </div>
+    )
+  }
+}
