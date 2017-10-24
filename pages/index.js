@@ -44,10 +44,14 @@ export default class extends React.Component {
     const windowBottom = windowHeight + window.pageYOffset;
 
     if (windowBottom >= docHeight) {
-      this.setState(state => ({
-        ...state,
-        visibleUntilIndex: state.visibleUntilIndex + 1,
-      }));
+      if (this.state.visibleUntilIndex < this.state.cycles.length) {
+        this.setState(state => ({
+          ...state,
+          visibleUntilIndex: state.visibleUntilIndex + 1,
+        }));
+      } else {
+        window.removeEventListener('scroll', this.handleScroll);
+      }
     }
   }
 
