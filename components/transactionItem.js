@@ -9,7 +9,7 @@ export default class TransactionItem extends React.Component {
 
     return (
       <div
-        className={`relative ${onClick ? 'pointer' : ''} ${paid ? 'paid' : ''}`}
+        className={`relative trans ${onClick ? 'pointer' : ''} ${paid ? 'paid' : ''}`}
         onClick={(e) => {
           e.preventDefault();
           if (onClick) {
@@ -50,6 +50,9 @@ export default class TransactionItem extends React.Component {
             position: absolute;
             left: -2rem;
             top: 0;
+          }
+          .trans {
+            transition: opacity 0.4s;
           }
           .paid {
             opacity: 0.5;
